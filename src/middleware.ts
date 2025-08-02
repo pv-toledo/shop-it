@@ -6,10 +6,6 @@ export default withAuth(
     const { pathname } = req.nextUrl
     const token = req.nextauth.token
 
-    // Log para debug (remova em produção)
-    console.log(`Middleware executado para: ${pathname}`)
-    console.log(`Token existe: ${!!token}`)
-
     // Se não tem token e está tentando acessar área protegida
     if (!token && pathname.startsWith('/dashboard')) {
       const loginUrl = new URL('/login', req.url)

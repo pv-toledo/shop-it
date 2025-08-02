@@ -1,5 +1,6 @@
-export default function DashboardPage () {
-    return (
-        <h1>dash</h1>
-    )
+export default function DashboardPage() {
+
+  return (
+    <div></div>
+  );
 }

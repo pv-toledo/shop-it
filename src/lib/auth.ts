@@ -15,8 +15,7 @@ declare module 'next-auth' {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     async redirect({ url, baseUrl }) {
-      // SEMPRE redireciona para dashboard após login
-      // Ignora callbackUrl e outras configurações
+      // Always redirects to dashboard after login
       return `${baseUrl}/dashboard`
     },
     session: ({ session, token }) => {
