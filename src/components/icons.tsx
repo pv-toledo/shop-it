@@ -1,9 +1,12 @@
-import { ChevronLeft, LucideProps, Menu, ShoppingCart } from "lucide-react";
+import { ChevronLeft, LogOut, LucideProps, Menu, Moon, ShoppingCart, Sun } from "lucide-react";
 
 export const Icons = {
   chevronLeft: ChevronLeft,
   logo: ShoppingCart,
   menu: Menu,
+  logout: LogOut,
+  moon: Moon,
+  sun: Sun,
   google: (props: LucideProps) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path

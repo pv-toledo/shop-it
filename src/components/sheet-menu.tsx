@@ -1,9 +1,11 @@
 "use client";
 
 import { User } from "@/generated/prisma";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
+import { LogoutButton } from "./logout-button";
+import { ThemeToggler } from "./theme-toggler";
 
 type SheetMenuProps = {
   profile: User | null;
@@ -21,8 +23,14 @@ export function SheetMenu({ profile }: SheetMenuProps) {
           <Icons.menu />
         </Button>
       </SheetTrigger>
-      <SheetContent>
-        <p>{profile?.name}</p>
+      <SheetContent className="p-5">
+        <SheetHeader>
+          <SheetTitle className="hidden" />
+          <p className="text-sm">{profile?.name}</p>
+          <p className="text-xs text-muted-foreground">{profile?.email}</p>
+        </SheetHeader>
+        <ThemeToggler />
+        <LogoutButton />
       </SheetContent>
     </Sheet>
   );
