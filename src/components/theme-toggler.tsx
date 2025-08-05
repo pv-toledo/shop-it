@@ -14,11 +14,11 @@ export function ThemeToggler() {
     <Button
       variant="ghost"
       onClick={() => handleThemeToggle()}
-      className="justify-start"
+      className="justify-start gap-4"
       aria-label="Alternar tema"
     >
       {theme === "dark" ? <Icons.moon /> : <Icons.sun />}
-      <span>Tema {theme === "dark" ? "escuro" : "claro"}</span>
+      <span className="lg:text-2xl">Tema {theme === "dark" ? "escuro" : "claro"}</span>
     </Button>
   );
 }

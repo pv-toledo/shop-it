@@ -1,11 +1,18 @@
 "use client";
 
 import { User } from "@/generated/prisma";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Icons } from "./icons";
 import { LogoutButton } from "./logout-button";
 import { ThemeToggler } from "./theme-toggler";
+import Link from "next/link";
 
 type SheetMenuProps = {
   profile: User | null;
@@ -17,18 +24,32 @@ export function SheetMenu({ profile }: SheetMenuProps) {
       <SheetTrigger asChild>
         <Button
           variant="ghost"
-          size="sm"
+          size={"default"}
           className="border border-foreground/20"
         >
           <Icons.menu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="p-5">
+      <SheetContent className="min-w-xl p-5">
         <SheetHeader>
           <SheetTitle className="hidden" />
-          <p className="text-sm">{profile?.name}</p>
-          <p className="text-xs text-muted-foreground">{profile?.email}</p>
+          <p className="font-medium lg:text-3xl">{profile?.name}</p>
+          <p className="text-sm text-muted-foreground lg:text-xl">
+            {profile?.email}
+          </p>
         </SheetHeader>
+        <Button variant="ghost" className="justify-start gap-4">
+          <Icons.tags />
+          <Link href="/products" className="lg:text-2xl">
+            Meus produtos
+          </Link>
+        </Button>
+        <Button variant="ghost" className="justify-start gap-4">
+          <Icons.layoutGrid />
+          <Link href="/products" className="lg:text-2xl">
+            Categorias
+          </Link>
+        </Button>
         <ThemeToggler />
         <LogoutButton />
       </SheetContent>
