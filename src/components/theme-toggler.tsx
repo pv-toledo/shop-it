@@ -18,7 +18,7 @@ export function ThemeToggler() {
       aria-label="Alternar tema"
     >
       {theme === "dark" ? <Icons.moon /> : <Icons.sun />}
-      <span className="lg:text-2xl">Tema {theme === "dark" ? "escuro" : "claro"}</span>
+      <span className="text-lg lg:text-2xl">Tema {theme === "dark" ? "escuro" : "claro"}</span>
     </Button>
   );
 }

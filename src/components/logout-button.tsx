@@ -7,7 +7,7 @@ export function LogoutButton() {
     <Button variant="ghost"  onClick={() => signOut()} className="justify-start">
       <div className="flex gap-4 items-center">
         <Icons.logout className="text-red-500" />
-        <span className="lg:text-2xl">Log out</span>
+        <span className="text-lg lg:text-2xl">Log out</span>
       </div>
     </Button>
   );

@@ -30,23 +30,23 @@ export function SheetMenu({ profile }: SheetMenuProps) {
           <Icons.menu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="min-w-xl p-5">
+      <SheetContent className="lg:min-w-xl p-5">
         <SheetHeader>
           <SheetTitle className="hidden" />
-          <p className="font-medium lg:text-3xl">{profile?.name}</p>
-          <p className="text-sm text-muted-foreground lg:text-xl">
+          <p className="text-xl font-medium lg:text-3xl">{profile?.name}</p>
+          <p className="text-muted-foreground lg:text-xl">
             {profile?.email}
           </p>
         </SheetHeader>
         <Button variant="ghost" className="justify-start gap-4">
           <Icons.tags />
-          <Link href="/products" className="lg:text-2xl">
+          <Link href="/products" className="text-lg lg:text-2xl">
             Meus produtos
           </Link>
         </Button>
         <Button variant="ghost" className="justify-start gap-4">
           <Icons.layoutGrid />
-          <Link href="/products" className="lg:text-2xl">
+          <Link href="/categories" className="text-lg lg:text-2xl">
             Categorias
           </Link>
         </Button>

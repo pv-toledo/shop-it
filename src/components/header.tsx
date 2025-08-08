@@ -17,10 +17,10 @@ export async function Header() {
 
   return (
     <header className="flex items-center justify-between border-b border-b-foreground/20 h-16 px-10 lg:h-22">
-      <div className="max-w-7xl w-full flex items-center mx-auto justify-between">
+      <div className="max-w-6xl w-full flex items-center mx-auto justify-between">
         <div className="flex items-center gap-2">
           <Icons.logo className="w-6 h-6 lg:w-8 lg:h-8" />
-          <span className="lg:text-2xl lg:font-medium">Shop-it!</span>
+          <span className="text-xl font-medium lg:text-2xl">Shop-it!</span>
         </div>
         <SheetMenu profile={user} />
       </div>
