@@ -1,6 +1,9 @@
-export default function DashboardPage() {
+import { Metadata } from "next";
 
-  return (
-    <div></div>
-  );
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
+
+export default function DashboardPage() {
+  return <div></div>;
 }

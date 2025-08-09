@@ -1,7 +1,10 @@
-import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
 import { Title } from "./_components/title";
 import { EmptyPlaceholder } from "./_components/empty-placeholder";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Categorias'
+};
 
 export default function CategoriesPage() {
   return (
