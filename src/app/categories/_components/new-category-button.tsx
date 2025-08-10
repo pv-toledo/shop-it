@@ -98,7 +98,7 @@ export function NewCategoryButton() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button className="w-fit text-foreground lg:text-lg lg:py-6">
+        <Button className="w-fit text-white lg:text-lg lg:py-6">
           <Icons.plus className="lg:w-5! lg:h-5!" strokeWidth="3" />
           <p>Nova categoria</p>
         </Button>

@@ -36,22 +36,19 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
-  const session = await getServerAuthSession();
-  if (!session) {
-    return new Response(JSON.stringify(null), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+export async function getUserCategories () {
+
+  const session = await getServerAuthSession()
+  if (!session) return null
 
   const categories = await prisma.category.findMany({
-    where: { userId: session.user.id },
-    orderBy: { createdAt: "desc" },
-  });
+    where: {
+      userId: session.user.id
+    },
+    orderBy: {
+      name:"asc"
+    }
+  })
 
-  return new Response(JSON.stringify(categories), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
+  return categories
 }

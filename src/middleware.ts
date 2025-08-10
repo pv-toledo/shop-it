@@ -1,43 +1,43 @@
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
+// middleware.ts
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { withAuth } from "next-auth/middleware";
+
+const PUBLIC_ROUTES = ["/", "/login"];
+
+function isPublicRoute(route: string) {
+  return PUBLIC_ROUTES.includes(route);
+}
 
 export default withAuth(
-  function middleware(req) {
-    const { pathname } = req.nextUrl
-    const token = req.nextauth.token
+  async function middleware(req: NextRequest) {
 
-    // Se não tem token e está tentando acessar área protegida
-    if (!token && pathname.startsWith('/dashboard')) {
-      const loginUrl = new URL('/login', req.url)
-      loginUrl.searchParams.set('callbackUrl', req.url)
-      return NextResponse.redirect(loginUrl)
+    const token = await getToken({ req });
+
+    const isAuth = !!token;
+    
+    const isPublic = isPublicRoute(req.nextUrl.pathname);
+
+    if (!isAuth && !isPublic) {
+      return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    return NextResponse.next()
+    if (isAuth && isPublic) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+
+    return NextResponse.next();
   },
+
   {
     callbacks: {
-      authorized: ({ token, req }) => {
-        const { pathname } = req.nextUrl
-        
-        // Para rotas do dashboard, exige autenticação
-        if (pathname.startsWith('/dashboard')) {
-          return !!token
-        }
-        
-        // Para outras rotas, permite acesso
-        return true
-      },
+      // This is a workaround so the middleware function above is always called
+      authorized: () => true,
     },
   }
-)
+);
 
 export const config = {
-  matcher: [
-    // Protege todas as rotas do dashboard
-    '/dashboard/:path*',
-    // Adicione outras rotas protegidas aqui se necessário
-    // '/admin/:path*',
-    // '/profile/:path*'
-  ]
-}
+  matcher: ['/categories/:path*', '/dashboard']
+};
