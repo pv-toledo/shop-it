@@ -7,7 +7,7 @@ export function Title() {
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
           Categorias
         </h1>
-        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-xl text-muted-foreground lg:text-2xl">
             Crie e gerencie suas categorias
           </p>

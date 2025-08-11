@@ -3,6 +3,7 @@ import { EmptyPlaceholder } from "./_components/empty-placeholder";
 import { Metadata } from "next";
 import { getUserCategories } from "../api/categories/route";
 import { CategoryItem } from "./_components/category-item";
+import { OrderFilter } from "./_components/order-filter";
 
 export const metadata: Metadata = {
   title: "Categorias",
@@ -14,6 +15,7 @@ export default async function CategoriesPage() {
   return (
     <main className="w-full max-w-6xl mx-auto px-10 lg:px-0">
       <Title />
+      <OrderFilter />
       {!userCategories || userCategories.length === 0 ? (
         <EmptyPlaceholder />
       ) : (
