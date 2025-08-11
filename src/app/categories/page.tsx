@@ -9,8 +9,18 @@ export const metadata: Metadata = {
   title: "Categorias",
 };
 
-export default async function CategoriesPage() {
-  const userCategories = await getUserCategories();
+type CategoriesPageProps = {
+	searchParams: Promise<{
+		order?: string;
+	}>;
+};
+
+
+export default async function CategoriesPage({searchParams}:CategoriesPageProps) {
+
+  const {order} = await searchParams
+
+  const userCategories = await getUserCategories(order);
 
   return (
     <main className="w-full max-w-6xl mx-auto px-10 lg:px-0">

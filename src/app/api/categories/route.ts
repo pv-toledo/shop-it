@@ -36,19 +36,23 @@ export async function POST(req: Request) {
   }
 }
 
-export async function getUserCategories () {
+const orderConfigs = {
+  ascending: { column: "name", config: "asc" },
+  descending: { column: "name", config: "desc" },
+  latest: { column: "createdAt", config: "desc" },
+} as const;
 
-  const session = await getServerAuthSession()
-  if (!session) return null
+type OrderKey = keyof typeof orderConfigs;
 
-  const categories = await prisma.category.findMany({
-    where: {
-      userId: session.user.id
-    },
-    orderBy: {
-      name:"asc"
-    }
-  })
+export async function getUserCategories(order?: string) {
+  const session = await getServerAuthSession();
+  if (!session) return null;
 
-  return categories
+  const { column, config } =
+    orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
+
+  return prisma.category.findMany({
+    where: { userId: session.user.id },
+    orderBy: { [column]: config },
+  });
 }
