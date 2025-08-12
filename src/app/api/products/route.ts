@@ -11,54 +11,24 @@ export async function POST(req: Request) {
       );
     }
 
-    const { category } = await req.json();
+    const { product, categoryId } = await req.json();
 
-    const newCategory = await prisma.category.create({
+    const newProduct = await prisma.product.create({
       data: {
-        name: category,
+        name: product,
         userId: session.user.id,
+        categoryId: categoryId
       },
     });
 
-    return new Response(JSON.stringify(newCategory), {
+    return new Response(JSON.stringify(newProduct), {
       status: 201,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error: any) {
     console.error("Erro no backend:", error);
     return new Response(
-      JSON.stringify({ message: error.message || "Erro ao criar categoria" }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-  }
-}
-
-export async function GET(req: Request) {
-  try {
-    const session = await getServerAuthSession();
-    if (!session) {
-      return new Response(
-        JSON.stringify({ message: "Usuário não autenticado" }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    const categories = await prisma.category.findMany({
-      where: { userId: session.user.id },
-      orderBy: { name: "asc" },
-    });
-
-    return new Response(JSON.stringify(categories), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-  } catch (error: any) {
-    console.error("Erro no backend:", error);
-    return new Response(
-      JSON.stringify({ message: error.message || "Erro ao buscar categorias" }),
+      JSON.stringify({ message: error.message || "Erro ao criar produto" }),
       {
         status: 500,
         headers: { "Content-Type": "application/json" },

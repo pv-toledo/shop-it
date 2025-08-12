@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { queryClient } from "@/lib/query-client";
 
 const newCategoryFormSchema = z.object({
   category: z
@@ -63,6 +64,7 @@ export function NewCategoryButton() {
   const { mutate: createCategory, isPending } = useMutation({
     mutationFn: createCategoryRequest,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
       router.refresh();
       setOpen(false);
       categoryForm.reset();
@@ -111,7 +113,10 @@ export function NewCategoryButton() {
           </DialogDescription>
         </DialogHeader>
         <Form {...categoryForm}>
-          <form onSubmit={categoryForm.handleSubmit(onSubmit)} className="space-y-5">
+          <form
+            onSubmit={categoryForm.handleSubmit(onSubmit)}
+            className="space-y-5"
+          >
             <FormField
               control={categoryForm.control}
               name="category"
@@ -130,7 +135,7 @@ export function NewCategoryButton() {
               )}
             ></FormField>
             <Button
-            size="lg"
+              size="lg"
               type="submit"
               disabled={isSubmitDisabled}
               className="text-foreground"
