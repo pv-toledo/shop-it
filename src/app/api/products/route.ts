@@ -45,15 +45,16 @@ const orderConfigs = {
 
 type OrderKey = keyof typeof orderConfigs;
 
-export async function getUserCategories(order?: string) {
+export async function getUserProducts(order?: string) {
   const session = await getServerAuthSession();
   if (!session) return null;
 
-  const { column, config } =
-    orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
-
-  return prisma.category.findMany({
+  return prisma.product.findMany({
     where: { userId: session.user.id },
-    orderBy: { [column]: config },
+    include: {
+      category: true
+    }
   });
 }
+  // const { column, config } =
+  //   orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
