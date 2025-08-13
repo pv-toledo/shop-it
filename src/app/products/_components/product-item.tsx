@@ -13,7 +13,7 @@ export function ProductItem({ product }: ProductItemProps) {
       <div className="flex flex-col gap-1 lg:gap-2">
         <div className="w-full flex items-center justify-between">
             <p className="text-lg font-medium lg:text-2xl">{product.name}</p>
-            <Badge asChild className="text-foreground lg:text-sm">
+            <Badge asChild className="text-white lg:text-sm">
                 <Link href="">{product.category.name}</Link>
             </Badge>
         </div>

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       data: {
         name: product,
         userId: session.user.id,
-        categoryId: categoryId
+        categoryId: categoryId,
       },
     });
 
@@ -49,12 +49,14 @@ export async function getUserProducts(order?: string) {
   const session = await getServerAuthSession();
   if (!session) return null;
 
+  const { column, config } =
+    orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
+
   return prisma.product.findMany({
     where: { userId: session.user.id },
     include: {
-      category: true
-    }
+      category: true,
+    },
+    orderBy: { [column]: config },
   });
 }
-  // const { column, config } =
-  //   orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
