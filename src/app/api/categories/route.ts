@@ -1,5 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { toSlug } from "@/lib/slugify";
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +17,7 @@ export async function POST(req: Request) {
     const newCategory = await prisma.category.create({
       data: {
         name: category,
+        slug: toSlug(category),
         userId: session.user.id,
       },
     });
@@ -84,6 +86,9 @@ export async function getUserCategories(order?: string) {
 
   return prisma.category.findMany({
     where: { userId: session.user.id },
+    include: {
+      products: true
+    },
     orderBy: { [column]: config },
   });
 }

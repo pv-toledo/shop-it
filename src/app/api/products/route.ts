@@ -1,5 +1,6 @@
 import { getServerAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { toSlug } from "@/lib/slugify";
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +17,7 @@ export async function POST(req: Request) {
     const newProduct = await prisma.product.create({
       data: {
         name: product,
+        slug: toSlug(product),
         userId: session.user.id,
         categoryId: categoryId,
       },

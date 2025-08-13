@@ -5,3 +5,9 @@ export type ProductWithCategory = Prisma.ProductGetPayload<{
         category: true
     }
 }>
+
+export type CategoryWithProduct = Prisma.CategoryGetPayload<{
+    include: {
+        products: true
+    }
+}>
