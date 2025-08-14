@@ -14,7 +14,7 @@ export function ProductItem({ product }: ProductItemProps) {
         <div className="w-full flex items-center justify-between">
             <p className="text-lg font-medium lg:text-2xl">{product.name}</p>
             <Badge asChild className="text-white lg:text-sm">
-                <Link href="">{product.category.name}</Link>
+                <Link href={`/categories/${product.category.slug}`}>{product.category.name}</Link>
             </Badge>
         </div>
         <p className="text-sm text-muted-foreground font-medium lg:text-lg">

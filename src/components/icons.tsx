@@ -1,7 +1,8 @@
-import { ChevronLeft, LayoutGrid, LogOut, LucideProps, Menu, Moon, Plus, ShoppingCart, Sun, Tags, Trash2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, LayoutGrid, LogOut, LucideProps, Menu, Moon, Plus, ShoppingCart, Sun, Tags, Trash2 } from "lucide-react";
 
 export const Icons = {
   chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
   logo: ShoppingCart,
   menu: Menu,
   logout: LogOut,

@@ -9,7 +9,6 @@ export default function CategoriesLayout({
     <main className="flex min-h-screen flex-col">
       <Header />
       <div className="flex flex-col">{children}</div>
-      
     </main>
   );
 }
