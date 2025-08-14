@@ -6,9 +6,11 @@ type CategoryPageProps = {
 
 export default async function CategoryPage ({params}:CategoryPageProps) {
     const {categorySlug} =  params
-    console.log(categorySlug)
+
 
     return (
-        <h1>{categorySlug}</h1>
+        <div>
+            
+        </div>
     )
 }
