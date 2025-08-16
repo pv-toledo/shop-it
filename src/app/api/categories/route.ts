@@ -1,6 +1,7 @@
 import { getServerAuthSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { toSlug } from "@/lib/slugify";
+import { getOrderConfig } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -69,25 +70,16 @@ export async function GET(req: Request) {
   }
 }
 
-const orderConfigs = {
-  ascending: { column: "name", config: "asc" },
-  descending: { column: "name", config: "desc" },
-  latest: { column: "createdAt", config: "desc" },
-} as const;
-
-type OrderKey = keyof typeof orderConfigs;
-
 export async function getUserCategories(order?: string) {
   const session = await getServerAuthSession();
   if (!session) return null;
 
-  const { column, config } =
-    orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
+  const { column, config } = getOrderConfig(order);
 
   return prisma.category.findMany({
     where: { userId: session.user.id },
     include: {
-      products: true
+      products: true,
     },
     orderBy: { [column]: config },
   });

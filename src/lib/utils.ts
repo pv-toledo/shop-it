@@ -1,4 +1,4 @@
-import { routeTitles } from "@/config/site";
+import { orderConfigs, routeTitles } from "@/config/site";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -33,4 +33,14 @@ export function generateBreadcrumbItems(
       isLast,
     };
   });
+}
+
+export function getOrderConfig(order?: string) {
+
+  type OrderKey = keyof typeof orderConfigs;
+  
+  const { column, config } =
+    orderConfigs[(order as OrderKey) ?? "latest"] ?? orderConfigs.latest;
+
+  return { column, config };
 }

@@ -1,0 +1,21 @@
+import { Product } from "@/generated/prisma";
+import { format } from "date-fns";
+
+type ProductInCategoryItemProps = {
+  product: Product;
+};
+
+export function ProductInCategoryItem({ product }: ProductInCategoryItemProps) {
+  return (
+    <div className="justify-between gap-1 w-full px-5 bg-card py-2.5 lg:p-5 border rounded-md lg:rounded-lg">
+      <div className="flex flex-col gap-1 lg:gap-2">
+        <div className="w-full flex items-center justify-between">
+            <p className="text-lg font-medium lg:text-2xl">{product.name}</p>
+        </div>
+        <p className="text-sm text-muted-foreground font-medium lg:text-lg">
+          Criado em: {format(new Date(product.createdAt), "dd/MM/yyyy")}
+        </p>
+      </div>
+    </div>
+  );
+}

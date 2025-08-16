@@ -10,3 +10,9 @@ export const routeTitles: Record<string, string> = {
   categories: "Categorias",
   products: "Produtos",
 };
+
+export const orderConfigs = {
+  ascending: { column: "name", config: "asc" },
+  descending: { column: "name", config: "desc" },
+  latest: { column: "createdAt", config: "desc" },
+} as const;
