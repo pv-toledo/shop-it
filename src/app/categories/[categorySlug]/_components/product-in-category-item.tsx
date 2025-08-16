@@ -1,5 +1,6 @@
 import { Product } from "@/generated/prisma";
 import { format } from "date-fns";
+import { ProductOptionsMenu } from "../../../products/_components/product-options-menu";
 
 type ProductInCategoryItemProps = {
   product: Product;
@@ -11,6 +12,7 @@ export function ProductInCategoryItem({ product }: ProductInCategoryItemProps) {
       <div className="flex flex-col gap-1 lg:gap-2">
         <div className="w-full flex items-center justify-between">
             <p className="text-lg font-medium lg:text-2xl">{product.name}</p>
+            <ProductOptionsMenu />
         </div>
         <p className="text-sm text-muted-foreground font-medium lg:text-lg">
           Criado em: {format(new Date(product.createdAt), "dd/MM/yyyy")}
