@@ -18,18 +18,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField, FormItem } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Category } from "@/generated/prisma";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
-const newProductFormSchema = z.object({
+type NewProductInCategoryButtonProps = {
+  category: Category;
+};
+
+const newProductInCategoryFormSchema = z.object({
   product: z
     .string()
     .min(1, { message: "O nome para o produto é obrigatório" })
@@ -38,37 +35,24 @@ const newProductFormSchema = z.object({
   categoryId: z.string(),
 });
 
-type NewProductForm = z.infer<typeof newProductFormSchema>;
+type NewProductInCategoryForm = z.infer<typeof newProductInCategoryFormSchema>;
 
-export function NewProductButton() {
+export function NewProductInCategoryButton({
+  category,
+}: NewProductInCategoryButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
 
-  const productForm = useForm<NewProductForm>({
-    resolver: zodResolver(newProductFormSchema),
+  const productForm = useForm<NewProductInCategoryForm>({
+    resolver: zodResolver(newProductInCategoryFormSchema),
     defaultValues: {
       product: "",
+      categoryId: category.id,
     },
     mode: "onChange",
   });
 
-  async function getAvailableCategories(): Promise<Category[]> {
-    const res = await fetch("/api/categories");
-
-    if (!res.ok) {
-      const errorData = await res.json().catch(() => ({}));
-      throw new Error(errorData.message || "Erro ao buscar categorias");
-    }
-
-    return res.json();
-  }
-
-  const { data: availableCategories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getAvailableCategories,
-  });
-
-  async function createProductRequest(data: NewProductForm) {
+  async function createProductRequest(data: NewProductInCategoryForm) {
     const res = await fetch("/api/products", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -102,8 +86,7 @@ export function NewProductButton() {
   });
 
   const onSubmit = useCallback(
-    (values: NewProductForm) => {
-    console.log(values)
+    (values: NewProductInCategoryForm) => {
       createProduct(values);
     },
     [createProduct]
@@ -133,7 +116,7 @@ export function NewProductButton() {
         <DialogHeader className="gap-0.5">
           <DialogTitle className="text-xl">Criar novo produto</DialogTitle>
           <DialogDescription>
-            Crie um novo produto para uma categoria.
+            Crie um novo produto para a categoria {category.name}.
           </DialogDescription>
         </DialogHeader>
         <Form {...productForm}>
@@ -166,18 +149,18 @@ export function NewProductButton() {
                   <Label htmlFor="category" className="text-md">
                     Categoria
                   </Label>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione uma categoria" />
-                    </SelectTrigger>
-                    <SelectContent className="w-full">
-                      {availableCategories?.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    type="text"
+                    id="category"
+                    disabled
+                    readOnly
+                    value={category.name}
+                  />
+                  <input
+                    type="hidden"
+                    {...field}
+                    value={category.id}
+                  />
                 </FormItem>
               )}
             ></FormField>
