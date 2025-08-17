@@ -1,5 +1,6 @@
 import { Category } from "@/generated/prisma";
 import { NewProductInCategoryButton } from "./new-product-in-category-button";
+import { OrderFilter } from "./order-filter";
 
 type TitleProps = {
     category: Category
@@ -12,9 +13,12 @@ export function Title({category}: TitleProps) {
         {category.name}
       </h1>
       <p className="text-xl text-muted-foreground mb-2.5 lg:text-2xl lg:mb-0">
-        Gerencie os produtos da categoria {category.name}
+        Gerencie os produtos da categoria
       </p>
-      <NewProductInCategoryButton category={category} />
+      <div className="flex flex-col justify-between lg:flex-row lg:items-center">
+        <NewProductInCategoryButton category={category} />
+        <OrderFilter />
+      </div>
     </section>
   );
 }

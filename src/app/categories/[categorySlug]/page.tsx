@@ -52,8 +52,7 @@ export default async function CategoryPage({
   return (
     <main className="w-full max-w-6xl mx-auto px-10 lg:px-0">
       <Title category={category} />
-      <OrderFilter />
-      <section className="flex flex-col gap-2.5 w-full mt-10 lg:gap-5 lg:mt-15">
+      <section className="flex flex-col gap-2.5 w-full mt-7.5 lg:gap-5 lg:mt-15">
         {products.map((product) => (
           <ProductInCategoryItem key={product.id} product={product} />
         ))}
