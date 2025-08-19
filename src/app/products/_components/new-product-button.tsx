@@ -103,7 +103,6 @@ export function NewProductButton() {
 
   const onSubmit = useCallback(
     (values: NewProductForm) => {
-    console.log(values)
       createProduct(values);
     },
     [createProduct]
@@ -130,8 +129,8 @@ export function NewProductButton() {
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader className="gap-0.5">
-          <DialogTitle className="text-xl">Criar novo produto</DialogTitle>
+        <DialogHeader>
+          <DialogTitle className="text-left text-xl">Criar novo produto</DialogTitle>
           <DialogDescription>
             Crie um novo produto para uma categoria.
           </DialogDescription>
@@ -182,7 +181,6 @@ export function NewProductButton() {
               )}
             ></FormField>
             <Button
-              size="lg"
               type="submit"
               disabled={isSubmitDisabled}
               className="text-foreground"

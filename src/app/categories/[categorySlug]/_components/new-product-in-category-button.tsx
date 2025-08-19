@@ -113,8 +113,8 @@ export function NewProductInCategoryButton({
         </Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader className="gap-0.5">
-          <DialogTitle className="text-xl">Criar novo produto</DialogTitle>
+        <DialogHeader>
+          <DialogTitle className="text-left text-xl">Criar novo produto</DialogTitle>
           <DialogDescription>
             Crie um novo produto para a categoria {category.name}.
           </DialogDescription>
@@ -165,7 +165,6 @@ export function NewProductInCategoryButton({
               )}
             ></FormField>
             <Button
-              size="lg"
               type="submit"
               disabled={isSubmitDisabled}
               className="text-foreground"

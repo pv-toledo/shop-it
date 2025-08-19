@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Title } from "./_components/title";
 import { ProductInCategoryItem } from "./_components/product-in-category-item";
-import { OrderFilter } from "./_components/order-filter";
 import { getOrderConfig } from "@/lib/utils";
 
 type CategoryPageProps = {
@@ -44,6 +43,7 @@ export default async function CategoryPage({
     where: {
       categoryId: category.id,
     },
+    
     orderBy: {
       [column]: config,
     },

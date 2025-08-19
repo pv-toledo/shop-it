@@ -40,11 +40,51 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  try {
+    const session = await getServerAuthSession();
+    if (!session) {
+      return new Response(
+        JSON.stringify({ message: "Usuário não autenticado" }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const { id, name, categoryId } = await req.json();
+
+    const editedProduct = await prisma.product.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
+        categoryId: categoryId,
+        updatedAt: new Date(),
+      },
+    });
+
+    return new Response(JSON.stringify(editedProduct), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+    
+  } catch (error: any) {
+    console.error(error);
+    return new Response(
+      JSON.stringify({ message: error.message || "Erro ao editar produto" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
+}
+
 export async function getUserProducts(order?: string) {
   const session = await getServerAuthSession();
   if (!session) return null;
 
-  const { column, config } = getOrderConfig(order)
+  const { column, config } = getOrderConfig(order);
 
   return prisma.product.findMany({
     where: { userId: session.user.id },
