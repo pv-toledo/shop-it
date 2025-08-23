@@ -26,6 +26,7 @@ import { Category, Product } from "@/generated/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -62,6 +63,14 @@ export function EditProductForm({
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      id: product.id,
+      name: product.name,
+      categoryId: product.categoryId,
+    });
+  }, [product, form.reset]);
+
   async function getAvailableCategories(): Promise<Category[]> {
     const res = await fetch("/api/categories");
 
@@ -91,9 +100,11 @@ export function EditProductForm({
   const { mutate: editProduct, isPending } = useMutation({
     mutationFn: editProductRequest,
     onSuccess: () => {
-      router.refresh();
-      form.reset();
       onSuccessClose();
+
+      setTimeout(() => {
+        router.refresh();
+      }, 300);
     },
     onError: (error: unknown) => {
       if (error instanceof Error) {
@@ -174,7 +185,11 @@ export function EditProductForm({
               </FormItem>
             )}
           />
-          <Button disabled={isSubmitDisabled} type="submit" className="text-foreground">
+          <Button
+            disabled={isSubmitDisabled}
+            type="submit"
+            className="text-foreground"
+          >
             Salvar
           </Button>
         </form>
