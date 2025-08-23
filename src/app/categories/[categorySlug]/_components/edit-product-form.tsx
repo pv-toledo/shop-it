@@ -24,12 +24,15 @@ import {
 } from "@/components/ui/select";
 import { Category, Product } from "@/generated/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 type EditProductFormProps = {
   product: Product;
+  onSuccessClose: () => void;
 };
 
 const editProductFormSchema = z.object({
@@ -44,7 +47,12 @@ const editProductFormSchema = z.object({
 
 type EditProductForm = z.infer<typeof editProductFormSchema>;
 
-export function EditProductForm({ product }: EditProductFormProps) {
+export function EditProductForm({
+  product,
+  onSuccessClose,
+}: EditProductFormProps) {
+  const router = useRouter();
+
   const form = useForm<EditProductForm>({
     resolver: zodResolver(editProductFormSchema),
     defaultValues: {
@@ -65,14 +73,54 @@ export function EditProductForm({ product }: EditProductFormProps) {
     return res.json();
   }
 
+  async function editProductRequest(data: EditProductForm) {
+    const res = await fetch("/api/products", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Erro ao editar produto");
+    }
+
+    return res.json();
+  }
+
+  const { mutate: editProduct, isPending } = useMutation({
+    mutationFn: editProductRequest,
+    onSuccess: () => {
+      router.refresh();
+      form.reset();
+      onSuccessClose();
+    },
+    onError: (error: unknown) => {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Não foi possível criar o produto");
+      }
+    },
+  });
+
   const { data: availableCategories } = useQuery({
     queryKey: ["categories"],
     queryFn: getAvailableCategories,
   });
 
+  function onSubmit(data: EditProductForm) {
+    editProduct(data);
+  }
+
+  const { isValid, dirtyFields } = form.formState;
+
+  const isSubmitDisabled =
+    !isValid || Object.keys(dirtyFields).length === 0 || isPending;
+
   return (
     <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
-      <DialogHeader >
+      <DialogHeader>
         <DialogTitle className="text-left text-xl">Editar produto</DialogTitle>
         <DialogDescription>
           Edite o nome ou troque a categoria de seu produto.
@@ -80,7 +128,7 @@ export function EditProductForm({ product }: EditProductFormProps) {
       </DialogHeader>
 
       <Form {...form}>
-        <form className="space-y-5">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
             name="id"
@@ -126,7 +174,9 @@ export function EditProductForm({ product }: EditProductFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="text-foreground">Salvar</Button>
+          <Button disabled={isSubmitDisabled} type="submit" className="text-foreground">
+            Salvar
+          </Button>
         </form>
       </Form>
     </DialogContent>

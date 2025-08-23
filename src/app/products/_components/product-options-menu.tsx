@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { EditProductForm } from "@/app/categories/[categorySlug]/_components/edit-product-form"; // 2. Importar o novo componente de formulário
+import { EditProductForm } from "@/app/categories/[categorySlug]/_components/edit-product-form";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -49,7 +49,7 @@ export function ProductOptionsMenu({ product }: ProductOptionsMenuProps) {
         open={openDialog === "edit"}
         onOpenChange={(isOpen) => !isOpen && setOpenDialog(null)}
       >
-        <EditProductForm product={product} />
+        <EditProductForm product={product} onSuccessClose={() => setOpenDialog(null)}/>
       </Dialog>
     </>
   );
